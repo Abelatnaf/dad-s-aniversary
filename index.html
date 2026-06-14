@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b5cff" />
+  <title>Phone-Help · Screenshots → Contacts</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>📇 Phone-Help</h1>
+    <p class="tagline">Turn screenshots of names &amp; numbers into contacts</p>
+  </header>
+
+  <main>
+    <!-- 1. UPLOAD -->
+    <section id="screen-upload" class="screen active">
+      <p class="hint">Add screenshots that show people's names next to their phone numbers.
+        Everything is read on your device — images never leave your phone.</p>
+
+      <div class="upload-actions">
+        <label class="btn btn-primary">
+          🖼️ Choose images
+          <input id="file-input" type="file" accept="image/*" multiple hidden />
+        </label>
+        <label class="btn btn-secondary">
+          📷 Take photo
+          <input id="camera-input" type="file" accept="image/*" capture="environment" hidden />
+        </label>
+      </div>
+
+      <div id="thumbs" class="thumbs"></div>
+
+      <button id="scan-btn" class="btn btn-primary btn-block" disabled>Scan images</button>
+    </section>
+
+    <!-- 2. PROCESSING -->
+    <section id="screen-processing" class="screen">
+      <h2>Reading your screenshots…</h2>
+      <p id="processing-status" class="hint">Starting…</p>
+      <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+    </section>
+
+    <!-- 3. REVIEW -->
+    <section id="screen-review" class="screen">
+      <h2>Review contacts</h2>
+      <p class="hint">Tap any cell to fix it. Uncheck rows you don't want.
+        <span class="badge badge-valid">Valid</span>
+        <span class="badge badge-local">Local</span>
+        <span class="badge badge-check">Check</span>
+        <span class="badge badge-dup">Dup</span>
+      </p>
+      <div class="table-wrap">
+        <table id="review-table">
+          <thead>
+            <tr><th>✓</th><th>Name</th><th>Phone</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody id="review-body"></tbody>
+        </table>
+      </div>
+      <div class="review-actions">
+        <button id="add-row-btn" class="btn btn-secondary">＋ Add row</button>
+        <button id="to-export-btn" class="btn btn-primary">Continue →</button>
+      </div>
+    </section>
+
+    <!-- 4. EXPORT -->
+    <section id="screen-export" class="screen">
+      <h2>Save your contacts</h2>
+      <p id="export-summary" class="hint"></p>
+      <div class="export-actions">
+        <button id="dl-vcf-btn" class="btn btn-primary btn-block">⬇️ Download vCard (.vcf)</button>
+        <button id="dl-csv-btn" class="btn btn-primary btn-block">⬇️ Download CSV</button>
+        <button id="google-btn" class="btn btn-google btn-block">Add to Google Contacts</button>
+        <p id="google-result" class="hint"></p>
+      </div>
+      <button id="restart-btn" class="btn btn-secondary btn-block">Start over</button>
+    </section>
+  </main>
+
+  <!-- Libraries (CDN, no build step) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://unpkg.com/libphonenumber-js@1.11.4/bundle/libphonenumber-max.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- App modules -->
+  <script src="config.js"></script>
+  <script src="parse.js"></script>
+  <script src="export.js"></script>
+  <script src="ocr.js"></script>
+  <script src="google.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

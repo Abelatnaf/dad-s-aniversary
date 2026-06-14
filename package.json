@@ -1,0 +1,11 @@
+{
+  "name": "phone-help",
+  "version": "1.0.0",
+  "description": "Mobile-first web app that turns screenshots of names + phone numbers into contacts (vCard, CSV, Google Contacts).",
+  "private": true,
+  "scripts": {
+    "test": "node parse.test.js && node export.test.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "license": "MIT"
+}
