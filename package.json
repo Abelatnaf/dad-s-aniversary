@@ -1,0 +1,23 @@
+{
+  "name": "phone-help",
+  "version": "2.0.0",
+  "description": "Android app that reads screenshots of names + phone numbers with Google Gemini and saves the contacts straight to your phone.",
+  "private": true,
+  "scripts": {
+    "test": "node parse.test.js && node export.test.js",
+    "serve": "python3 -m http.server 8000 --directory www",
+    "android:add": "cap add android",
+    "sync": "cap sync",
+    "android:open": "cap open android",
+    "android:run": "cap run android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor-community/contacts": "^6.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  },
+  "license": "MIT"
+}
