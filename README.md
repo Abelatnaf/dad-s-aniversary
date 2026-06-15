@@ -42,6 +42,20 @@ full international numbers.
 
 ## 2. Build the Android app
 
+### Option A — Build in the cloud (no Android Studio) ☁️
+
+This repo includes a GitHub Actions workflow that builds the APK for you.
+
+1. (Optional) In your repo: **Settings → Secrets and variables → Actions → New
+   repository secret**, name `GEMINI_API_KEY`, value = your key. Then you don't
+   even need to edit `config.js` — the key is baked into the build.
+2. Go to the **Actions** tab → **Build Android APK** → **Run workflow**.
+3. When it finishes, open the run and download **phone-help-apk** from
+   **Artifacts**. Transfer the `.apk` to your phone and tap to install (you may
+   need to allow "install from unknown sources").
+
+### Option B — Build locally with Android Studio 🛠️
+
 ```bash
 npm install                 # install Capacitor + the contacts plugin
 npx cap add android         # generate the native android/ project (one time)
