@@ -17,7 +17,7 @@
     <!-- 1. UPLOAD -->
     <section id="screen-upload" class="screen active">
       <p class="hint">Add screenshots that show people's names next to their phone numbers.
-        Everything is read on your device — images never leave your phone.</p>
+        Google Gemini reads them, then you review before saving.</p>
 
       <div class="upload-actions">
         <label class="btn btn-primary">
@@ -40,6 +40,7 @@
       <h2>Reading your screenshots…</h2>
       <p id="processing-status" class="hint">Starting…</p>
       <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+      <p class="hint">Using Google Gemini to find names &amp; numbers.</p>
     </section>
 
     <!-- 3. REVIEW -->
@@ -70,26 +71,27 @@
       <h2>Save your contacts</h2>
       <p id="export-summary" class="hint"></p>
       <div class="export-actions">
-        <button id="dl-vcf-btn" class="btn btn-primary btn-block">⬇️ Download vCard (.vcf)</button>
-        <button id="dl-csv-btn" class="btn btn-primary btn-block">⬇️ Download CSV</button>
-        <button id="google-btn" class="btn btn-google btn-block">Add to Google Contacts</button>
-        <p id="google-result" class="hint"></p>
+        <button id="save-phone-btn" class="btn btn-primary btn-block">📲 Save to phone</button>
+        <p id="save-result" class="hint"></p>
+        <details class="more-options">
+          <summary>Other formats</summary>
+          <button id="dl-vcf-btn" class="btn btn-secondary btn-block">⬇️ Download vCard (.vcf)</button>
+          <button id="dl-csv-btn" class="btn btn-secondary btn-block">⬇️ Download CSV</button>
+        </details>
       </div>
       <button id="restart-btn" class="btn btn-secondary btn-block">Start over</button>
     </section>
   </main>
 
-  <!-- Libraries (CDN, no build step) -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <!-- Library: phone-number normalization (CDN) -->
   <script src="https://unpkg.com/libphonenumber-js@1.11.4/bundle/libphonenumber-max.js"></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <!-- App modules -->
   <script src="config.js"></script>
   <script src="parse.js"></script>
   <script src="export.js"></script>
-  <script src="ocr.js"></script>
-  <script src="google.js"></script>
+  <script src="ai.js"></script>
+  <script src="contacts.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

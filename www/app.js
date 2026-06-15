@@ -52,13 +52,12 @@
   // --- Processing -----------------------------------------------------------
   async function runScan() {
     showScreen('processing');
-    setProgress(0, 'Starting…');
+    setProgress(0.05, 'Starting…');
     try {
-      const texts = await OCR.recognizeAll(state.files, (done, total, frac) => {
-        setProgress(frac, `Reading image ${Math.min(done + 1, total)} of ${total}…`);
+      const pairs = await window.AI.extractFromImages(state.files, (done, total) => {
+        setProgress(Math.max(0.05, done / total), `Reading image ${Math.min(done + 1, total)} of ${total}…`);
       });
-      state.contacts = window.Parse.extractAll(texts, {});
-      OCR.terminate();
+      state.contacts = window.Parse.fromPairs(pairs, {});
       renderReview();
       showScreen('review');
     } catch (err) {
@@ -151,20 +150,29 @@
   function goToExport() {
     const n = window.Exporter.selectable(state.contacts).length;
     $('export-summary').textContent = `${n} contact${n === 1 ? '' : 's'} selected.`;
-    const gbtn = $('google-btn');
-    if (!window.GoogleContacts.isConfigured()) {
-      gbtn.disabled = true;
-      gbtn.title = 'Set GOOGLE_CLIENT_ID in config.js to enable (see README)';
+    const btn = $('save-phone-btn');
+    if (window.DeviceContacts.isNative()) {
+      btn.textContent = '📲 Save to phone';
+    } else {
+      btn.textContent = '⬇️ Save (download vCard)';
+      btn.title = 'Direct save works in the installed app; in a browser this downloads a vCard to import.';
     }
+    $('save-result').textContent = '';
     showScreen('export');
   }
 
-  async function pushToGoogle() {
-    const out = $('google-result');
-    out.textContent = 'Opening Google sign-in…';
+  async function saveContacts() {
+    const out = $('save-result');
+    if (!window.DeviceContacts.isNative()) {
+      window.Exporter.downloadVCard(state.contacts);
+      out.textContent = '⬇️ vCard downloaded — open it to import into your phone.';
+      return;
+    }
+    out.textContent = 'Saving to your phone…';
     try {
-      const { created, total } = await window.GoogleContacts.pushContacts(state.contacts);
-      out.textContent = `✅ Added ${created} of ${total} contacts to Google Contacts.`;
+      const { saved, total, failures } = await window.DeviceContacts.saveToDevice(state.contacts);
+      out.textContent = `✅ Saved ${saved} of ${total} contacts to your phone`
+        + (failures && failures.length ? ` (${failures.length} failed).` : '.');
     } catch (err) {
       out.textContent = `⚠️ ${err.message}`;
     }
@@ -174,7 +182,7 @@
     state.files = [];
     state.contacts = [];
     renderThumbs();
-    $('google-result').textContent = '';
+    $('save-result').textContent = '';
     showScreen('upload');
   }
 
@@ -185,9 +193,9 @@
     $('scan-btn').addEventListener('click', runScan);
     $('add-row-btn').addEventListener('click', addBlankRow);
     $('to-export-btn').addEventListener('click', goToExport);
+    $('save-phone-btn').addEventListener('click', saveContacts);
     $('dl-vcf-btn').addEventListener('click', () => window.Exporter.downloadVCard(state.contacts));
     $('dl-csv-btn').addEventListener('click', () => window.Exporter.downloadCsv(state.contacts));
-    $('google-btn').addEventListener('click', pushToGoogle);
     $('restart-btn').addEventListener('click', restart);
   }
 

@@ -1,5 +1,5 @@
 // Run with: node export.test.js  (no dependencies required)
-const E = require('./export.js');
+const E = require('./www/export.js');
 
 let pass = 0, fail = 0;
 function ok(cond, msg) { if (cond) pass++; else { fail++; console.error(`✗ ${msg}`); } }

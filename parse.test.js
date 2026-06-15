@@ -1,6 +1,6 @@
 // Run with: node parse.test.js
 // No dependencies required — exercises the built-in fallback normalizer.
-const P = require('./parse.js');
+const P = require('./www/parse.js');
 
 let pass = 0, fail = 0;
 function eq(actual, expected, msg) {
@@ -57,7 +57,19 @@ eq(r.length, 0, 'junk: short number ignored');
 eq(P.splitName('John Ronald Tolkien'), { given: 'John', family: 'Ronald Tolkien' }, 'splitName: multi-word');
 eq(P.splitName('Cher'), { given: 'Cher', family: '' }, 'splitName: single token');
 
-// 9. Helper predicates.
+// 9. fromPairs: AI {name, phone} pairs -> normalized, deduped contacts.
+r = P.fromPairs([
+  { name: 'Maria Garcia', phone: '+1 415 555 0132' },
+  { name: 'Local Bob', phone: '415-555-0199' },
+  { name: 'Dupe Maria', phone: '+14155550132' },
+], { country: 'US' });
+eq(r.length, 3, 'fromPairs: keeps all rows');
+eq(r[0].e164, '+14155550132', 'fromPairs: international normalized');
+eq(r[1].e164, '+14155550199', 'fromPairs: local normalized via country');
+eq(r[2].status, 'Dup', 'fromPairs: duplicate flagged');
+eq(r[2].include, false, 'fromPairs: duplicate unchecked');
+
+// 10. Helper predicates.
 ok(P.isNameLike('Maria Garcia'), 'isNameLike: real name');
 ok(!P.isNameLike('+1 415 555 0132'), 'isNameLike: phone is not a name');
 ok(P.isPureLabel('Mobile'), 'isPureLabel: label');

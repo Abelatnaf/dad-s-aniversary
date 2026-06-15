@@ -204,6 +204,27 @@ function extractAll(texts, options) {
   return dedupe(all);
 }
 
+// Turn AI-extracted { name, phone } pairs into normalized contact objects,
+// then dedupe. Reuses the same normalization as OCR-based parsing.
+function fromPairs(pairs, options) {
+  const opts = options || {};
+  const country = opts.country || (typeof CONFIG !== 'undefined' ? CONFIG.DEFAULT_COUNTRY : 'US');
+  const contacts = (pairs || [])
+    .filter((p) => p && (p.phone || p.name))
+    .map((p) => {
+      const norm = normalizePhone(p.phone || '', country);
+      return {
+        name: (p.name || '').trim(),
+        rawNumber: (p.phone || '').trim(),
+        e164: norm.e164,
+        national: norm.national,
+        status: statusFor(norm),
+        include: norm.valid,
+      };
+    });
+  return dedupe(contacts);
+}
+
 // Split a display name into given/family for vCard & CSV.
 function splitName(full) {
   const parts = (full || '').trim().split(/\s+/).filter(Boolean);
@@ -213,7 +234,7 @@ function splitName(full) {
 }
 
 const ParseAPI = {
-  normalizePhone, extractContacts, extractAll, dedupe, splitName,
+  normalizePhone, extractContacts, extractAll, dedupe, splitName, fromPairs,
   // exported for testing
   isNameLike, cleanName, findPhoneMatches, isPureLabel,
 };

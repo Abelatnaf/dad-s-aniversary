@@ -104,5 +104,7 @@ td input[type="checkbox"] { width: 20px; height: 20px; }
 .review-actions .btn { flex: 1; }
 
 .export-actions { margin-top: 8px; }
-#google-result { margin-top: 10px; min-height: 1.2em; }
+#save-result { margin-top: 10px; min-height: 1.2em; }
+.more-options { margin-top: 18px; }
+.more-options summary { cursor: pointer; color: var(--muted); font-size: 0.9rem; padding: 6px 0; }
 #restart-btn { margin-top: 24px; }
