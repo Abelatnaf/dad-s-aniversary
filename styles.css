@@ -65,6 +65,12 @@ body {
   border-radius: 200px 200px 18px 18px;
   overflow: hidden;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 201, 122, 0.3);
+  transform-style: preserve-3d;
+  animation: floaty 7s ease-in-out infinite;
+}
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotateZ(0deg); }
+  50% { transform: translateY(-14px) rotateZ(-0.6deg); }
 }
 .hero-portrait img {
   width: 100%;
@@ -237,44 +243,76 @@ main { position: relative; z-index: 1; }
   line-height: 1;
 }
 
-/* ---------- Gallery ---------- */
+/* ---------- Gallery (3D tilt cards) ---------- */
 .gallery-grid {
   column-count: 3;
-  column-gap: 14px;
+  column-gap: 20px;
 }
 @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
 @media (max-width: 540px) { .gallery-grid { column-count: 1; } }
 
 .g-item {
   position: relative;
-  margin: 0 0 14px;
-  border-radius: 12px;
+  margin: 0 0 20px;
+  border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
   break-inside: avoid;
   background: #0c0e28;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.35s ease;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(184, 196, 255, 0.06);
+}
+.g-item.tilt {
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.6),
+    0 12px 24px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(232, 201, 122, 0.35);
 }
 .g-item img {
   width: 100%;
   display: block;
-  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.5s;
-  filter: saturate(0.95);
+  /* let each photo keep its own shape so nothing gets cropped */
+  height: auto;
+  transition: filter 0.5s ease;
+  filter: saturate(0.96) brightness(0.96);
+  transform: translateZ(0);
 }
-.g-item:hover img { transform: scale(1.06); filter: saturate(1.1); }
+.g-item.tilt img { filter: saturate(1.12) brightness(1.04); }
+/* soft moving sheen for depth */
+.g-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.18),
+    transparent 45%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.g-item.tilt::before { opacity: 1; }
 .g-item .g-cap {
   position: absolute;
   inset: auto 0 0 0;
-  padding: 1.4rem 1rem 0.9rem;
+  z-index: 3;
+  padding: 1.6rem 1rem 0.95rem;
   font-family: var(--serif);
-  font-size: 1rem;
+  font-size: 1.02rem;
   text-align: left;
-  background: linear-gradient(transparent, rgba(5, 4, 20, 0.85));
+  background: linear-gradient(transparent, rgba(5, 4, 20, 0.9));
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(8px) translateZ(40px);
   transition: opacity 0.4s, transform 0.4s;
 }
-.g-item:hover .g-cap { opacity: 1; transform: none; }
+.g-item.tilt .g-cap { opacity: 1; transform: translateZ(40px); }
 
 /* ---------- Finale ---------- */
 .finale { padding-bottom: 9rem; }
@@ -284,6 +322,7 @@ main { position: relative; z-index: 1; }
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(232, 201, 122, 0.25);
+  animation: floaty 8s ease-in-out infinite;
 }
 .finale-photo img { width: 100%; display: block; }
 .finale-text {
