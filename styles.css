@@ -130,17 +130,33 @@ img { -webkit-user-drag: none; user-select: none; }
   overflow: hidden;
 }
 .scene-bg {
-  position: absolute; inset: -8%;
-  z-index: 0; will-change: transform;
+  position: absolute; inset: 0;
+  z-index: 0; will-change: transform; overflow: hidden;
 }
 .scene-bg img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transform: scale(1.08);
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; display: block;
 }
-.scene.active .scene-bg img { animation: kenburns 14s var(--ease) forwards; }
-@keyframes kenburns {
-  from { transform: scale(1.06) translate(0, 0); }
-  to   { transform: scale(1.20) translate(-1.5%, -2%); }
+/* blurred fill so the frame is never empty around a portrait photo */
+.scene-bg .bg-fill {
+  object-fit: cover;
+  transform: scale(1.15);
+  filter: blur(26px) brightness(0.55) saturate(1.1);
+}
+/* the actual photo, shown in full — never cropped */
+.scene-bg .bg-main {
+  object-fit: contain;
+  transform: scale(1.02);
+}
+.scene.active .scene-bg .bg-fill { animation: kenburnsFill 16s var(--ease) forwards; }
+.scene.active .scene-bg .bg-main { animation: kenburnsMain 16s var(--ease) forwards; }
+@keyframes kenburnsFill {
+  from { transform: scale(1.12) translate(0, 0); }
+  to   { transform: scale(1.22) translate(-1.5%, -2%); }
+}
+@keyframes kenburnsMain {
+  from { transform: scale(1.02); }
+  to   { transform: scale(1.06); }
 }
 .scene-scrim {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -203,7 +219,8 @@ img { -webkit-user-drag: none; user-select: none; }
 .scene-letter .scene-scrim {
   background: linear-gradient(180deg, rgba(15,9,5,0.78), rgba(15,9,5,0.7));
 }
-.scene-letter .scene-bg img { filter: blur(3px) brightness(0.6); }
+.scene-letter .scene-bg .bg-main { display: none; }
+.scene-letter .scene-bg .bg-fill { filter: blur(20px) brightness(0.5) saturate(1.1); transform: scale(1.2); }
 .letter-paper {
   position: relative; z-index: 2;
   background:

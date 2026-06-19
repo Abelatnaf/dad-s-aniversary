@@ -120,11 +120,19 @@ const film = document.getElementById("film");
 function bgFor(photo, focus) {
   const bg = document.createElement("div");
   bg.className = "scene-bg";
-  const img = document.createElement("img");
-  img.src = photo;
-  img.alt = "";
-  if (focus) img.style.objectPosition = focus;
-  bg.appendChild(img);
+  // Blurred fill — covers the whole frame so there are no empty bars,
+  // even when the photo's shape doesn't match the screen.
+  const fill = document.createElement("img");
+  fill.className = "bg-fill";
+  fill.src = photo;
+  fill.alt = "";
+  if (focus) fill.style.objectPosition = focus;
+  // Main photo — shown in full, never cropped ("fits the frame").
+  const main = document.createElement("img");
+  main.className = "bg-main";
+  main.src = photo;
+  main.alt = "";
+  bg.append(fill, main);
   return bg;
 }
 function scrim() {
@@ -220,8 +228,9 @@ CONFIG.scenes.forEach((s, i) => {
   const el = (BUILDERS[s.type] || buildCaption)(s);
   el.dataset.index = i;
   // first photo loads eagerly, rest lazily
-  const img = el.querySelector(".scene-bg img");
-  if (img) img.loading = i <= 1 ? "eager" : "lazy";
+  el.querySelectorAll(".scene-bg img").forEach((img) => {
+    img.loading = i <= 1 ? "eager" : "lazy";
+  });
   film.appendChild(el);
   sceneEls.push(el);
 });
