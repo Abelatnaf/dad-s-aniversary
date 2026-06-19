@@ -143,11 +143,14 @@ img { -webkit-user-drag: none; user-select: none; }
   transform: scale(1.15);
   filter: blur(26px) brightness(0.55) saturate(1.1);
 }
-/* the actual photo, shown in full — never cropped */
+/* the main photo. Portrait shots fill the frame; landscape shots fit in
+   full over the blurred fill (orientation set per-scene in app.js). */
 .scene-bg .bg-main {
   object-fit: contain;
   transform: scale(1.02);
 }
+.scene-bg.portrait .bg-main { object-fit: cover; }
+.scene-bg.landscape .bg-main { object-fit: contain; }
 .scene.active .scene-bg .bg-fill { animation: kenburnsFill 16s var(--ease) forwards; }
 .scene.active .scene-bg .bg-main { animation: kenburnsMain 16s var(--ease) forwards; }
 @keyframes kenburnsFill {
@@ -263,19 +266,20 @@ img { -webkit-user-drag: none; user-select: none; }
 }
 .gallery-sub { font-family: var(--script); font-size: 1.3rem; color: var(--terracotta); margin: 0; }
 
-.gallery-grid { column-count: 4; column-gap: 16px; width: min(1180px, 100%); }
-@media (max-width: 1024px) { .gallery-grid { column-count: 3; } }
-@media (max-width: 720px)  { .gallery-grid { column-count: 2; } }
+.gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; width: min(1180px, 100%); }
+@media (max-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px)  { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .g-item {
-  position: relative; margin: 0 0 16px; background: var(--paper);
-  padding: 7px 7px 0; border-radius: 2px; cursor: pointer; break-inside: avoid;
+  position: relative; margin: 0; background: var(--paper);
+  padding: 7px 7px 0; border-radius: 2px; cursor: pointer;
   will-change: transform; transition: box-shadow 0.3s ease;
   box-shadow: 0 6px 16px rgba(42,33,27,0.16);
 }
 .g-item.tilt { box-shadow: 0 20px 40px rgba(42,33,27,0.3); z-index: 5; }
-.g-frame { overflow: hidden; border-radius: 1px; }
-.g-item img { width: 100%; display: block; height: auto; transition: transform 4s ease, filter 0.5s ease; filter: saturate(0.97); }
+/* uniform portrait frames make a tidy contact sheet (full shot in lightbox) */
+.g-frame { overflow: hidden; border-radius: 1px; aspect-ratio: 3 / 4; }
+.g-item img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; transition: transform 4s ease, filter 0.5s ease; filter: saturate(0.97); }
 .g-item.tilt img { transform: scale(1.06); filter: saturate(1.08); }
 .g-item::before {
   content: ""; position: absolute; inset: 0; z-index: 2;

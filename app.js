@@ -127,11 +127,19 @@ function bgFor(photo, focus) {
   fill.src = photo;
   fill.alt = "";
   if (focus) fill.style.objectPosition = focus;
-  // Main photo — shown in full, never cropped ("fits the frame").
+  // Main photo. Portrait shots fill the frame (cover); landscape shots sit
+  // in full over the blurred fill (contain), so nobody gets cropped out.
+  // The orientation class is set once the real dimensions are known, and
+  // `focus` frames the crop on the photos that fill.
   const main = document.createElement("img");
   main.className = "bg-main";
   main.src = photo;
   main.alt = "";
+  if (focus) main.style.objectPosition = focus;
+  const setOrient = () =>
+    bg.classList.add(main.naturalHeight > main.naturalWidth ? "portrait" : "landscape");
+  if (main.complete && main.naturalWidth) setOrient();
+  else main.addEventListener("load", setOrient, { once: true });
   bg.append(fill, main);
   return bg;
 }
