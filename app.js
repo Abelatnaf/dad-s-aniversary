@@ -27,50 +27,50 @@ and the quiet steadiness behind all of it.`,
   //   'gallery' — the contact-sheet of every photo (uses `photos` below)
   //   'finale'  — the closing scene
   scenes: [
-    { type: "hero", photo: "photos/hero-tux.jpg", focus: "center 22%",
+    { type: "hero", photo: "photos/traditional-dance.jpg", focus: "center 38%",
       eyebrow: "a little something for you",
       line: "Happy\nFather's Day",
-      sub: "To the man who showed me the world." },
+      sub: "To the man who never stopped dancing." },
 
-    { type: "caption", photo: "photos/dad-grey-suit.jpg", focus: "center 18%",
+    { type: "caption", photo: "photos/dad-grey-suit.jpg", focus: "center 32%",
       line: "Before I knew\nanything at all,\nI knew you." },
 
-    { type: "caption", photo: "photos/venice-church.jpg", focus: "center 40%",
+    { type: "caption", photo: "photos/venice-church.jpg", focus: "center 62%",
       chapter: "Chapter One — Away",
       line: "We went looking\nfor the world," },
 
-    { type: "caption", photo: "photos/venice-goldenhour.jpg", focus: "center 45%",
+    { type: "caption", photo: "photos/venice-goldenhour.jpg", focus: "center 72%",
       line: "and found it glowing\non the water." },
 
-    { type: "caption", photo: "photos/venice-point.jpg", focus: "center 35%",
+    { type: "caption", photo: "photos/venice-point.jpg", focus: "center 55%",
       kicker: "you always knew",
       line: "which way the\nadventure was." },
 
-    { type: "caption", photo: "photos/venice-dining.jpg", focus: "center 40%",
+    { type: "caption", photo: "photos/venice-dining.jpg", focus: "center 28%",
       kicker: "la dolce vita",
       line: "Long lunches.\nLonger stories." },
 
-    { type: "caption", photo: "photos/flight-laugh.jpg", focus: "center 30%",
+    { type: "caption", photo: "photos/flight-laugh.jpg", focus: "center 55%",
       chapter: "Chapter Two — The Sky",
       line: "The best part was\nnever the destination." },
 
-    { type: "caption", photo: "photos/flight-playful.jpg", focus: "center 30%",
+    { type: "caption", photo: "photos/flight-playful.jpg", focus: "center 35%",
       line: "Thirty-thousand feet —\nstill the funniest\nperson I know." },
 
-    { type: "letter", photo: "photos/dad-tux.jpg" },
+    { type: "letter", photo: "photos/dad-tux.jpg", focus: "center 35%" },
 
-    { type: "caption", photo: "photos/dad-cream-suit.jpg", focus: "center 18%",
+    { type: "caption", photo: "photos/dad-cream-suit.jpg", focus: "center 32%",
       chapter: "Chapter Three — Home",
       line: "Style, I learned,\nis just kindness —\nwell dressed." },
 
-    { type: "caption", photo: "photos/traditional-dance.jpg", focus: "center 30%",
-      kicker: "and when we came home,",
-      line: "you danced." },
+    { type: "caption", photo: "photos/hero-tux.jpg", focus: "center 36%",
+      kicker: "and somehow,",
+      line: "you always knew\nhow to walk into a room." },
 
-    { type: "caption", photo: "photos/festival.jpg", focus: "center 35%",
+    { type: "caption", photo: "photos/festival.jpg", focus: "center 32%",
       line: "You taught me\nwhere I'm from." },
 
-    { type: "caption", photo: "photos/dad-sons-1.jpg", focus: "center 25%",
+    { type: "caption", photo: "photos/dad-sons-1.jpg", focus: "center 40%",
       chapter: "Chapter Four — Us",
       line: "Everything I know\nabout being a good man,\nI learned watching you." },
 
@@ -78,7 +78,7 @@ and the quiet steadiness behind all of it.`,
       title: "Every Frame",
       sub: "a place I'd go again — tap to linger" },
 
-    { type: "finale", photo: "photos/dad-sons-2.jpg", focus: "center 22%",
+    { type: "finale", photo: "photos/dad-sons-2.jpg", focus: "center 35%",
       script: "to the moon and back",
       line: "Happy Father's Day, Dad.",
       sub: "I love you.",
