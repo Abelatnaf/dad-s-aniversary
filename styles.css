@@ -151,6 +151,12 @@ img { -webkit-user-drag: none; user-select: none; }
 }
 .scene-bg.portrait .bg-main { object-fit: cover; }
 .scene-bg.landscape .bg-main { object-fit: contain; }
+/* On wider-than-tall screens (desktop/laptop) a filled portrait would crop to
+   a horizontal band, so fit it in full there. Phones (portrait viewport) keep
+   the edge-to-edge fill. */
+@media (min-aspect-ratio: 1/1) {
+  .scene-bg.portrait .bg-main { object-fit: contain; }
+}
 .scene.active .scene-bg .bg-fill { animation: kenburnsFill 16s var(--ease) forwards; }
 .scene.active .scene-bg .bg-main { animation: kenburnsMain 16s var(--ease) forwards; }
 @keyframes kenburnsFill {
