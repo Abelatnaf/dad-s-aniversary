@@ -175,6 +175,25 @@
           <img data-src="photos/15dbc1f7-2444-4505-9cc5-13d6026a226b.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
           <img data-src="photos/74c9bcb2-04b7-4333-9ac6-89cfcf084a17.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
           <img data-src="photos/d5e35cfe-6047-4002-9790-b0f484e60bd2.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-cbe741b8c1b8.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-c28ebdda5d88.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-91c5e32ff47e.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-a9f7aa96e947.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-dd88682fb15c.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-93ba9bc98f65.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-772937a242ea.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-8da4b65931ba.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-4cb28daa450d.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-9cb46dae1145.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-1e09535bc97d.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-5bddbc9f75a4.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-2ff8b78dd715.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-dcc497f9a05a.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-961cf424e654.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-0f455a0c2d0d.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-0dda1e3285bd.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-a23f984e2530.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
+          <img data-src="photos/g-99a417cfe615.jpg" alt="" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;">
         </div>
         <div style="text-align:center;margin-top:46px;">
           <button onclick="{{ restart }}" style="background:transparent;border:1px solid #6a5f49;color:#efe6d6;font-family:'Archivo',sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;padding:14px 30px;cursor:pointer;border-radius:2px;" style-hover="background:rgba(201,162,75,.12);border-color:#c9a24b;">
@@ -244,7 +263,7 @@
   <button id="lbPrev" aria-label="Previous" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#cbbfa6;font-size:42px;cursor:pointer;padding:10px 16px;line-height:1;">‹</button>
   <button id="lbNext" aria-label="Next" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#cbbfa6;font-size:42px;cursor:pointer;padding:10px 16px;line-height:1;">›</button>
 </div>
-<audio id="bgm" loop preload="none"><source src="audio/theme.mp3" type="audio/mpeg"></audio>
+<audio id="bgm" loop preload="auto"><source src="audio/theme.mp3" type="audio/mpeg"></audio>
 
 <script>
 
@@ -335,7 +354,15 @@
   }
   function loadScene(i){
     [i-1,i,i+1].forEach(function(nn){var el=layerEls[nn];if(!el)return;var im=el.querySelectorAll('img[data-src]');for(var j=0;j<im.length;j++){if(!im[j].dataset.loaded){im[j].src=im[j].getAttribute('data-src');im[j].dataset.loaded='1';}}});
-    if(i===total){var g=layerEls[total].querySelectorAll('img[data-src]');for(var j=0;j<g.length;j++){if(!g[j].dataset.loaded){g[j].src=g[j].getAttribute('data-src');g[j].dataset.loaded='1';}}}
+    if(i===total)activateGallery();
+  }
+  var galleryActivated=false,gio=null;
+  function activateGallery(){
+    if(galleryActivated)return; galleryActivated=true;
+    var g=layerEls[total].querySelectorAll('img[data-src]');
+    if(!('IntersectionObserver' in window)){for(var j=0;j<g.length;j++){if(!g[j].dataset.loaded){g[j].src=g[j].getAttribute('data-src');g[j].dataset.loaded='1';}}return;}
+    gio=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){var im=en.target;if(!im.dataset.loaded){im.src=im.getAttribute('data-src');im.dataset.loaded='1';}gio.unobserve(im);}});},{rootMargin:'300px'});
+    for(var j=0;j<g.length;j++)gio.observe(g[j]);
   }
   function render(){var v=renderVals();applyBindings(v);loadScene(state.idx);}
 
